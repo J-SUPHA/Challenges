@@ -1,0 +1,17 @@
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        int profit = 0, position = -prices[0]; //position is given that initial value because 
+        //that is what it would take to purchase the inital stock
+        //profit is given the value of zero we haven't made any money yet
+        for (int i = 1; i < prices.length; i++) {//we iterate through every value in the array 
+            //except for the first value
+            position = Math.max(position, profit - prices[i]);//for each value in the array we must determine whether it is profitable to buy at any given point. So we can either maintain current position (for which the default is the 0th position) or we can take a new position givn we have the profit to do so. Generally if the price is high the poistion won't change. rather it will be anchored . However, if we have made a profit that is 
+//greater than the price offered then we will take this new position as the anchor. embedded in the position is the money we have already made from our previous transactions. This is why we simply add it to (profit - fee) 
+            profit = Math.max(profit, position + prices[i] - fee);//for this position we need to understand whether it is beneficial to sell at a given position. Either we retain the profit we already have. or we can sell the stock meaning we take the position that we take intially and add it to the price we sell at. After completing the transaction we must subtract the fee as we have both bought and sold at this point. The beauty of Math.max is that it will keep updating itself if there's more money to be made. for instance if you have 1,4,8,11,16 it will keep updating itself because 11-2-1>8-2-1 which is the profit that was previously stored until its fully updated to 16-2-1.  
+        }
+        return profit;
+    }
+}
+//overall: the position will increment even if profit is 0. say the first day was 9 and the second day was
+//7 0-7>-9 so then the position variable automatically changes. The more money we have in profit the more 
+//inclined we are take higher positions. 
